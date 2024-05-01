@@ -2,8 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./app/models");
 const dbConfig = require("./app/config/db.config");
+const { initializeApp, applicationDefault } = require("firebase-admin/app");
+const { getAuth } = require("firebase-admin/auth");
+const admin = require("firebase-admin");
 
 const app = express();
+const firebaseApp = initializeApp({
+    credential: applicationDefault()
+});
 const Role = db.role;
 
 var corsOptions = {
@@ -36,6 +42,22 @@ function initial() {
             }).save();
         }
     });
+
+    // TEST INSERT USER IN FIREBASE
+
+    /* getAuth().createUser({
+        email: 'user@example.com',
+        emailVerified: false,
+        phoneNumber: '+11234567890',
+        password: 'secretPassword',
+        displayName: 'John Doe',
+        photoURL: 'http://www.example.com/12345678/photo.png',
+        disabled: false
+    }).then(userRecord => {
+        console.log("NEW USER -- " + userRecord.uid);
+    }).catch((error) => {
+        console.log('Error creating new user:', error);
+    }); */
 }
 
 db.mongoose
